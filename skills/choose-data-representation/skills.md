@@ -1,5 +1,5 @@
 ---
-skill_id: "choose_data_representation"
+skill_id: "choose-data-representation"
 name: "Choose Data Representation"
 skill_type: "code"
 tags: ["data-structure", "representation", "modeling", "design"]

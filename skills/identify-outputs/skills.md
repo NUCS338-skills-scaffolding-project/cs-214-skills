@@ -1,5 +1,5 @@
 ---
-skill_id: "identify_outputs"
+skill_id: "identify-outputs"
 name: "Identify Outputs"
 skill_type: "code"
 tags: ["output", "result", "format"]
