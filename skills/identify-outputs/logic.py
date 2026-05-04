@@ -1,76 +1,61 @@
-def run(input):
-    """
-    Detects when a student is unsure what their code should output
-    and guides them toward clarifying the expected result and format.
-    """
-    message = input.get("message", "").lower()
+# logic.py — Identify Outputs Skill
+import time
+from pathlib import Path
+from dotenv import load_dotenv
+from google import genai
+from google.genai import errors
 
-    return_vs_print_phrases = [
-        "should i print or return", "print or return",
-        "do i return it", "do i print it",
-        "return or print", "should i use print"
-    ]
+load_dotenv(Path(__file__).resolve().parent.parent / "example-skill" / ".env")
 
-    format_confusion_phrases = [
-        "what format", "what type should i return",
-        "string or list", "list or string",
-        "how should i format", "what should the output look like",
-        "what does the output look like"
-    ]
+MODELS = ["gemini-3-flash-preview", "gemini-2.5-flash"]
 
-    unknown_output_phrases = [
-        "what am i supposed to output", "what do i return",
-        "what should i return", "what should i print",
-        "don't know what to output", "not sure what to return",
-        "what's the expected output", "what is the expected output"
-    ]
+def load_system_prompt():
+  path = Path(__file__).resolve().parent / "skills.md"
+  return path.read_text(encoding="utf-8").strip()
 
-    wrong_type_phrases = [
-        "wrong type", "type error", "expected list got string",
-        "returns the wrong thing", "output is wrong",
-        "getting the wrong result", "my output doesn't match"
-    ]
+def llm_request(contents, max_retries=3):
+  client = genai.Client()
 
-    if any(p in message for p in return_vs_print_phrases):
-        return {
-            "prompt": (
-                "Good question — check the assignment wording. "
-                "Does it say 'write a function that returns' or 'print the result'? "
-                "Those require different approaches."
-            )
-        }
-
-    if any(p in message for p in format_confusion_phrases):
-        return {
-            "prompt": (
-                "Look at the example outputs in the assignment. "
-                "What data type are they — a list, a string, a number? "
-                "Do you notice any pattern in how they're structured?"
-            )
-        }
-
-    if any(p in message for p in unknown_output_phrases):
-        return {
-            "prompt": (
-                "Let's start from the assignment description. "
-                "Can you find the sentence that describes what your code should produce? "
-                "Try restating it in your own words."
-            )
-        }
-
-    if any(p in message for p in wrong_type_phrases):
-        return {
-            "prompt": (
-                "It sounds like your code produces a result, but not in the right form. "
-                "Compare your output to the expected examples — "
-                "is it the same type and structure, or does something need to change?"
-            )
-        }
-
-    return {
-        "prompt": (
-            "Before writing your output logic, can you describe exactly "
-            "what your code should produce and in what format? "
-            "Check the assignment for example outputs to confirm."
+  for model in MODELS:
+    for attempt in range(max_retries):
+      try:
+        response = client.models.generate_content(
+          model=model, contents=contents
         )
-    }
+        return response.candidates[0].content.parts[0].text
+      except errors.ServerError:
+        wait = 2 ** attempt
+        print(f"  [{model}] 503 — retrying in {wait}s (attempt {attempt + 1}/{max_retries})")
+        time.sleep(wait)
+
+    print(f"  [{model}] all retries exhausted, trying fallback...")
+
+  raise RuntimeError("All models unavailable. Please try again later.")
+
+def run(input):
+  """
+  input: dict with keys:
+      - question: str — the student's question about outputs
+      - assignment: str — the full assignment description
+      - code: str (optional) — the student's current code
+  """
+  system_prompt = load_system_prompt()
+
+  user_prompt = f"""
+  Student's question:
+  {input.get("question")}
+
+  Assignment description:
+  {input.get("assignment", "None provided")}
+
+  Student's current code (if any):
+  {input.get("code", "None provided")}
+
+  Task:
+  Apply the Identify Outputs skill.
+
+  {system_prompt}
+  """
+
+  response = llm_request(user_prompt)
+  return response
