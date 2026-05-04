@@ -2,4 +2,4 @@ course_id: "CS-214"
 course_name: "Data Structures"
 course_type: "cs"
 spoc_contact: ""
-skills_used: ["identify_outputs", "choose_data_representation", "turn_edge_cases_into_tests", "interpret_error_messages", "trace_state_changes"]
+skills_used: ["identify-outputs", "data-rep-choice", "edge-case-tests", "error-messages", "trace-state"]

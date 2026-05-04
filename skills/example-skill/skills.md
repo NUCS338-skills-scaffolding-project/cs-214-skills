@@ -1,9 +1,16 @@
 ---
-skill_id: "skill-name"
-name: "Human Readable Name"
+skill_id: "example-skill"
+name: "Example Identify Outputs"
 skill_type: "instructional"
+stance: "socratic"
 tags: ["topic1", "topic2"]
+course_types: ["cs"]
+learning_goal_tags:
+  - "specify-io"
+trigger_signals:
+  - "output-confusion"
 python_entry: "logic.py"
+version: "0.1.0"
 ---
 
 # Skill Name

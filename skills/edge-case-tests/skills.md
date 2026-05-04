@@ -1,9 +1,20 @@
 ---
-skill_id: "turn-edge-cases-into-tests"
+skill_id: "edge-case-tests"
 name: "Turn Edge Cases into Tests"
 skill_type: "code"
+stance: "socratic"
 tags: ["testing", "edge-cases", "robustness", "verification"]
+course_types: ["cs"]
+learning_goal_tags:
+  - "handle-edge-cases"
+  - "design-test-plans"
+  - "specify-io"
+trigger_signals:
+  - "missing-tests"
+  - "edge-case-question"
+  - "bug-from-unhandled-input"
 python_entry: "logic.py"
+version: "0.1.0"
 ---
 
 # Turn Edge Cases into Tests
@@ -97,6 +108,6 @@ print(result)
 > **Tutor:** "Start by thinking about the categories of input your code could receive. What's a 'normal' input? What's the smallest possible input? The largest? Can you think of an input that might trip up your logic? List one example for each category."
 
 ## Notes
-- Pair this skill with trace-state-changes when a student's test fails and they need to debug why.
+- Pair this skill with Trace State Changes when a student's test fails and they need to debug why.
 - Works best after the student has a working implementation but before final submission.
 - Encourage students to name their test cases descriptively — the name itself clarifies what's being tested.

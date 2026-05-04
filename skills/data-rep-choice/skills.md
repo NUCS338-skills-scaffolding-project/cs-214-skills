@@ -1,9 +1,19 @@
 ---
-skill_id: "choose-data-representation"
+skill_id: "data-rep-choice"
 name: "Choose Data Representation"
 skill_type: "code"
+stance: "socratic"
 tags: ["data-structure", "representation", "modeling", "design"]
+course_types: ["cs"]
+learning_goal_tags:
+  - "choose-data-structures"
+  - "compare-strategies"
+trigger_signals:
+  - "data-structure-choice"
+  - "representation-confusion"
+  - "performance-tradeoff"
 python_entry: "logic.py"
+version: "0.1.0"
 ---
 
 # Choose Data Representation
@@ -97,6 +107,6 @@ print(result)
 > **Tutor:** "Think about how you'll access the data. Do you need to look things up by a specific key or label, or are you working with an ordered sequence of items? That distinction usually points you toward the right structure."
 
 ## Notes
-- Pair this skill with identify_outputs to first clarify what the program should produce, then choose how to represent it internally.
+- Pair this skill with Identify Outputs to first clarify what the program should produce, then choose how to represent it internally.
 - Works best when the student has already read the problem but hasn't started coding yet.
 - For problems involving multiple related entities, guide the student through each entity's representation separately before combining them.

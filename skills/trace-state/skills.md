@@ -1,9 +1,19 @@
 ---
-skill_id: "trace-state-changes"
+skill_id: "trace-state"
 name: "Trace State Changes"
 skill_type: "code"
+stance: "socratic"
 tags: ["debugging", "tracing", "state", "variables"]
+course_types: ["cs"]
+learning_goal_tags:
+  - "trace-execution"
+  - "debug-systematically"
+trigger_signals:
+  - "wrong-result"
+  - "variable-confusion"
+  - "loop-debugging"
 python_entry: "logic.py"
+version: "0.1.0"
 ---
 
 # Trace State Changes
@@ -97,6 +107,6 @@ print(result)
 > **Tutor:** "For loop issues, write down the loop variable's value at the start of each iteration, the condition check result, and the value at the end of the iteration. How many times does the loop run, and is that the number you expected?"
 
 ## Notes
-- Pair this skill with turn-edge-cases-into-tests — once a student traces and fixes a bug, the failing input becomes a regression test.
+- Pair this skill with Edge Case Tests — once a student traces and fixes a bug, the failing input becomes a regression test.
 - Works best when the student has a specific failing input they can trace through.
 - For complex code with many variables, suggest the student trace only the two or three variables most relevant to the bug.

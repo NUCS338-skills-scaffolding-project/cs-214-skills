@@ -1,9 +1,18 @@
 ---
-skill_id: "interpret-error-messages"
+skill_id: "error-messages"
 name: "Interpret Error Messages"
 skill_type: "code"
+stance: "hint"
 tags: ["debugging", "errors", "data-structures", "algorithms"]
+course_types: ["cs"]
+learning_goal_tags:
+  - "debug-systematically"
+trigger_signals:
+  - "pasted-error-message"
+  - "compile-error"
+  - "runtime-error"
 python_entry: "logic.py"
+version: "0.1.0"
 ---
 
 # Interpret Error Messages

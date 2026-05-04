@@ -2,8 +2,18 @@
 skill_id: "identify-outputs"
 name: "Identify Outputs"
 skill_type: "code"
+stance: "socratic"
 tags: ["output", "result", "format"]
+course_types: ["cs"]
+learning_goal_tags:
+  - "specify-io"
+  - "extract-requirements"
+trigger_signals:
+  - "output-confusion"
+  - "return-vs-print"
+  - "wrong-output-format"
 python_entry: "logic.py"
+version: "0.1.0"
 ---
 
 # Identify Outputs
