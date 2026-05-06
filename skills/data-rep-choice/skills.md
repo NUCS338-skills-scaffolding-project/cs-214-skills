@@ -1,8 +1,8 @@
 ---
 skill_id: "data-rep-choice"
 name: "Choose Data Representation"
-skill_type: "code"
-stance: "socratic"
+skill_type: "instructional"
+stance: "hint"
 tags: ["data-structure", "representation", "modeling", "design"]
 course_types: ["cs"]
 learning_goal_tags:
@@ -24,7 +24,7 @@ arrays, maps, sets, and other data structures. The tutor guides students to reas
 what they need to store and which operations matter most, without prescribing a specific implementation.
 
 ## Skill Type
-- **Type:** code
+- **Type:** instructional
 - **Course Focus:** CS
 
 ## When to Trigger

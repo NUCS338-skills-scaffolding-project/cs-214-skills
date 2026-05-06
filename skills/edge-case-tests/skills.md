@@ -2,7 +2,6 @@
 skill_id: "edge-case-tests"
 name: "Turn Edge Cases into Tests"
 skill_type: "code"
-stance: "socratic"
 tags: ["testing", "edge-cases", "robustness", "verification"]
 course_types: ["cs"]
 learning_goal_tags:
@@ -21,8 +20,9 @@ version: "0.1.0"
 
 ## Description
 Connects robustness to verification by helping students identify tricky scenarios
-and convert them into concrete, named test cases. The tutor guides students to think
-about boundaries, special inputs, and failure modes without writing full test suites for them.
+and convert them into concrete, named test cases. This code skill can return concrete
+edge-case categories, example scenarios, and test ideas while avoiding full solution
+implementation.
 
 ## Skill Type
 - **Type:** code
@@ -35,10 +35,10 @@ about boundaries, special inputs, and failure modes without writing full test su
 - Student needs to think about boundary values or empty inputs
 - Student wants to know if their test coverage is sufficient
 
-## Tutor Stance
-The tutor does not write complete test functions or assertions.
-It helps the student identify categories of edge cases and name specific scenarios,
-then asks the student to write the actual test code themselves.
+## Code Behavior
+The skill directly suggests useful edge-case categories and concrete scenarios. If
+the assignment context is specific enough, it may name likely inputs and expected
+behaviors; if the spec is ambiguous, it should say what needs clarification.
 
 ## Flow
 
@@ -66,14 +66,14 @@ before they begin writing test code.
 ## Safe Output Types
 - Test categories (boundary, empty, duplicate, error, typical)
 - Named scenarios with descriptions (e.g., "empty list input", "all elements identical")
+- Concrete test ideas with inputs and expected behavior when the assignment defines them
 - Questions that surface hidden assumptions
 - Prompts asking the student to describe expected behavior for a scenario
 
 ## Must Avoid
 - Writing full test functions, assertions, or test suites
-- Providing exact test inputs paired with exact expected outputs as copyable code
 - Implementing test harness or framework setup
-- Writing the solution or fixing the student's code
+- Writing the solution implementation or fixing the student's code
 - Deciding which testing framework to use
 
 ---

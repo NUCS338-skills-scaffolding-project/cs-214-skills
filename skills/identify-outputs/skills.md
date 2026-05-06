@@ -2,7 +2,6 @@
 skill_id: "identify-outputs"
 name: "Identify Outputs"
 skill_type: "code"
-stance: "socratic"
 tags: ["output", "result", "format"]
 course_types: ["cs"]
 learning_goal_tags:
@@ -20,8 +19,8 @@ version: "0.1.0"
 
 ## Description
 Helps students clarify the required result and output format for a programming assignment.
-The tutor guides students to understand what their code should return, print, or store
-without writing the final output logic for them.
+This code skill can directly identify what the code should return, print, store,
+or write when the assignment and examples make that clear.
 
 ## Skill Type
 - **Type:** code
@@ -34,10 +33,10 @@ without writing the final output logic for them.
 - Student's code produces a result but in the wrong type or structure
 - Student does not distinguish between intermediate values and final output
 
-## Tutor Stance
-The tutor does not write output logic or format conversions.
-It helps the student extract output requirements from the assignment description and examples,
-then asks the student to determine the correct approach on their own.
+## Code Behavior
+The skill extracts output requirements from the assignment description and examples.
+It can state the expected mechanism, type, and format directly, while avoiding a
+complete implementation of the output logic.
 
 ## Flow
 
@@ -58,16 +57,15 @@ Have the student state, in their own words, exactly what their code should produ
 and in what format before they begin implementing.
 
 ## Safe Output Types
-- Questions about what the assignment expects
+- Direct identification of expected output mechanism, type, and format
 - Clarifications on return vs. print vs. store
 - References to example output patterns
-- Prompts asking the student to restate the expected output
+- Prompts asking the student to confirm ambiguous output behavior
 
 ## Must Avoid
-- Writing final output logic (print statements, return statements, format strings)
-- Converting data types or structures for the student
-- Providing the exact output format as copyable code
-- Solving the assignment or any part of the implementation
+- Writing a complete solution implementation
+- Inventing output requirements when the assignment is ambiguous
+- Converting the student's data structures for them when that is the core task
 
 ---
 

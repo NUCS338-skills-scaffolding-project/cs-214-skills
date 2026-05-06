@@ -1,8 +1,8 @@
 ---
 skill_id: "return-behavior"
 name: "Decide Return Behavior"
-skill_type: "code"
-stance: "socratic"
+skill_type: "instructional"
+stance: "hint"
 tags: ["functions", "return-values", "side-effects", "interfaces"]
 course_types: ["cs"]
 learning_goal_tags:
@@ -25,7 +25,7 @@ printing or mutating data. The tutor grounds the choice in the assignment wordin
 and the student's current design without writing a prohibited final function contract.
 
 ## Skill Type
-- **Type:** code
+- **Type:** instructional
 - **Course Focus:** CS
 
 ## When to Trigger

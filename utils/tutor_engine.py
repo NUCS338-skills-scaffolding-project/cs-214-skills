@@ -25,7 +25,8 @@ COMPLETION_PHRASES = (
 class SkillSpec:
     skill_id: str
     name: str
-    stance: str
+    skill_type: str
+    stance: Optional[str]
     module_dir: Optional[str]
     triggers: tuple[tuple[str, int], ...]
     opening: str
@@ -36,6 +37,7 @@ SKILLS = [
     SkillSpec(
         skill_id="detect-ambiguity",
         name="Detect Ambiguity",
+        skill_type="instructional",
         stance="socratic",
         module_dir="detect-ambiguity",
         triggers=(
@@ -57,7 +59,8 @@ SKILLS = [
     SkillSpec(
         skill_id="return-behavior",
         name="Decide Return Behavior",
-        stance="socratic",
+        skill_type="instructional",
+        stance="hint",
         module_dir="return-behavior",
         triggers=(
             ("print or return", 10), ("return or print", 10),
@@ -79,7 +82,8 @@ SKILLS = [
     SkillSpec(
         skill_id="unit-test-plan",
         name="Build a Unit Test Plan",
-        stance="socratic",
+        skill_type="instructional",
+        stance="hint",
         module_dir="unit-test-plan",
         triggers=(
             ("test plan", 10), ("testing strategy", 10),
@@ -100,7 +104,8 @@ SKILLS = [
     SkillSpec(
         skill_id="edge-case-tests",
         name="Turn Edge Cases into Tests",
-        stance="socratic",
+        skill_type="code",
+        stance=None,
         module_dir="edge-case-tests",
         triggers=(
             ("edge case", 10), ("edge cases", 10), ("corner case", 9),
@@ -120,6 +125,7 @@ SKILLS = [
     SkillSpec(
         skill_id="ask-invariant",
         name="Ask for Invariant",
+        skill_type="instructional",
         stance="socratic",
         module_dir="ask-invariant",
         triggers=(
@@ -141,6 +147,7 @@ SKILLS = [
     SkillSpec(
         skill_id="identify-inv",
         name="Identify Invariants",
+        skill_type="instructional",
         stance="socratic",
         module_dir="identify-inv",
         triggers=(
@@ -162,7 +169,8 @@ SKILLS = [
     SkillSpec(
         skill_id="trace-state",
         name="Trace State Changes",
-        stance="socratic",
+        skill_type="instructional",
+        stance="reframe",
         module_dir="trace-state",
         triggers=(
             ("wrong answer", 9), ("wrong result", 9), ("wrong output", 8),
@@ -183,7 +191,8 @@ SKILLS = [
     SkillSpec(
         skill_id="error-messages",
         name="Interpret Error Messages",
-        stance="socratic",
+        skill_type="code",
+        stance=None,
         module_dir="error-messages",
         triggers=(
             ("traceback", 10), ("syntaxerror", 10), ("indexerror", 10),
@@ -204,7 +213,8 @@ SKILLS = [
     SkillSpec(
         skill_id="data-rep-choice",
         name="Choose Data Representation",
-        stance="socratic",
+        skill_type="instructional",
+        stance="hint",
         module_dir="data-rep-choice",
         triggers=(
             ("data structure", 8), ("representation", 7),
@@ -225,8 +235,9 @@ SKILLS = [
     SkillSpec(
         skill_id="identify-outputs",
         name="Identify Outputs",
-        stance="socratic",
-        module_dir=None,
+        skill_type="code",
+        stance=None,
+        module_dir="identify-outputs",
         triggers=(
             ("output", 8), ("expected output", 10), ("return", 4),
             ("print", 4), ("format", 6), ("what should it produce", 8),
@@ -316,6 +327,8 @@ def _skill_input(skill, message, assignment, history):
         common["student_code"] = message
     elif skill.skill_id == "return-behavior":
         common["current_design"] = message
+    elif skill.skill_id == "identify-outputs":
+        common["assignment_text"] = assignment
 
     return common
 
@@ -340,12 +353,18 @@ def _call_skill_opening(skill, message, assignment, history):
     return str(result)
 
 
-def _socratic_response(skill, prompt, turn):
-    guideline = (
-        "I won't give you the final answer, but I'll help you reason it out."
-    )
+def _format_response(skill, prompt, turn):
+    # Instructional skills should not give the exact answer, but they can still
+    # provide useful hints, reframes, explanations, and concrete next steps.
+    openers = {
+        "socratic": "Let's reason through it together.",
+        "hint": "Here's a useful direction to try.",
+        "reframe": "Let's look at the problem from a different angle.",
+        "meta": "Let's adjust how we are approaching this.",
+    }
     if turn == 0:
-        return f"**{skill.name} activated.** {guideline}\n\n{prompt}"
+        opener = openers.get(skill.stance, "Here's the direct result.")
+        return f"**{skill.name} activated.** {opener}\n\n{prompt}"
 
     return prompt
 
@@ -424,6 +443,7 @@ def run(input):
         return {
             "skill_id": active_skill.skill_id,
             "skill_name": active_skill.name,
+            "skill_type": active_skill.skill_type,
             "stance": active_skill.stance,
             "response": _closing_response(active_skill),
             "state": state,
@@ -464,6 +484,7 @@ def run(input):
         return {
             "skill_id": skill.skill_id,
             "skill_name": skill.name,
+            "skill_type": skill.skill_type,
             "stance": skill.stance,
             "response": _closing_response(skill),
             "state": state,
@@ -477,7 +498,7 @@ def run(input):
     else:
         prompt = _next_prompt(skill, turn)
 
-    response = _socratic_response(skill, prompt, turn)
+    response = _format_response(skill, prompt, turn)
 
     state["active_skill_id"] = skill.skill_id
     state["active_skill_name"] = skill.name
@@ -487,6 +508,7 @@ def run(input):
     return {
         "skill_id": skill.skill_id,
         "skill_name": skill.name,
+        "skill_type": skill.skill_type,
         "stance": skill.stance,
         "response": response,
         "state": state,

@@ -220,10 +220,10 @@ if student_message := st.chat_input(
 
     with st.chat_message("assistant"):
         if result.get("skill_id"):
-            st.caption(
-                f"Skill: {result['skill_name']} | "
-                f"Stance: {result.get('stance', 'unknown')}"
-            )
+            caption = f"Skill: {result['skill_name']}"
+            if result.get("stance"):
+                caption += f" | Stance: {result['stance']}"
+            st.caption(caption)
         st.markdown(response)
 
     st.session_state.messages.append({"role": "assistant", "content": response})

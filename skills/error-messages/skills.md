@@ -2,7 +2,6 @@
 skill_id: "error-messages"
 name: "Interpret Error Messages"
 skill_type: "code"
-stance: "hint"
 tags: ["debugging", "errors", "data-structures", "algorithms"]
 course_types: ["cs"]
 learning_goal_tags:
@@ -21,6 +20,9 @@ version: "0.1.0"
 Classifies and explains compiler, runtime, and logic errors common in
 data structures and algorithms coursework. Returns an error type label,
 a plain-English explanation of likely causes, and a guiding question.
+Because this is a code skill, it can directly identify the error category and
+likely cause; it should avoid only the exact finished fix when that would solve
+the student's assignment for them.
 
 ## Skill Type
 - **Type:** code
@@ -55,5 +57,6 @@ print(result)
 ```
 
 ## Notes
-This skill never returns corrected code. It only classifies the error
-and guides the student to find the fix themselves. Safe to use on any DS/A assignment.
+This skill may return direct explanations and concrete next debugging steps. It
+should not produce a full corrected solution unless the surrounding course policy
+allows direct code fixes.

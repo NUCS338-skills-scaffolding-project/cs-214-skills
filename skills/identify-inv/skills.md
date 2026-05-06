@@ -1,7 +1,7 @@
 ---
 skill_id: "identify-inv"
 name: "Identify Invariants"
-skill_type: "code"
+skill_type: "instructional"
 stance: "socratic"
 tags: ["invariants", "loops", "data-structures", "correctness"]
 course_types: ["cs"]
@@ -25,7 +25,7 @@ or mutable data structures. The tutor turns the student's current design into
 invariant prompts and lightweight correctness checks without completing a formal proof.
 
 ## Skill Type
-- **Type:** code
+- **Type:** instructional
 - **Course Focus:** CS
 
 ## When to Trigger

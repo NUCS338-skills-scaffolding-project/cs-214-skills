@@ -1,7 +1,7 @@
 ---
 skill_id: "detect-ambiguity"
 name: "Detect Ambiguity"
-skill_type: "code"
+skill_type: "instructional"
 stance: "socratic"
 tags: ["requirements", "ambiguity", "specification", "clarification"]
 course_types: ["cs"]
@@ -25,7 +25,7 @@ into implementation decisions. The tutor surfaces ambiguity and helps the studen
 form a precise instructor question without inventing assumptions as facts.
 
 ## Skill Type
-- **Type:** code
+- **Type:** instructional
 - **Course Focus:** CS
 
 ## When to Trigger

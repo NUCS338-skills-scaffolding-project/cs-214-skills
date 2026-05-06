@@ -1,7 +1,7 @@
 ---
 skill_id: "ask-invariant"
 name: "Ask for Invariant"
-skill_type: "code"
+skill_type: "instructional"
 stance: "socratic"
 tags: ["correctness", "invariants", "reasoning", "loops"]
 course_types: ["cs"]
@@ -24,7 +24,7 @@ as a loop, recursive call, or data structure operation progresses. The tutor ask
 the student's own invariant instead of supplying a formal proof.
 
 ## Skill Type
-- **Type:** code
+- **Type:** instructional
 - **Course Focus:** CS
 
 ## When to Trigger

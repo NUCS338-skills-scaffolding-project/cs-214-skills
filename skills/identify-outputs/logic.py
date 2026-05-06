@@ -1,61 +1,60 @@
-# logic.py — Identify Outputs Skill
-import time
-from pathlib import Path
-from dotenv import load_dotenv
-from google import genai
-from google.genai import errors
+# logic.py - Identify Outputs skill
 
-load_dotenv(Path(__file__).resolve().parent.parent / "example-skill" / ".env")
+OUTPUT_SIGNALS = (
+    ("return", ("return", "returns", "returned value")),
+    ("print", ("print", "prints", "display", "console", "stdout")),
+    ("file", ("write to a file", "save to a file", "output file", "csv", "txt file")),
+    ("store", ("store", "update", "mutate", "modify in place")),
+)
 
-MODELS = ["gemini-3-flash-preview", "gemini-2.5-flash"]
+FORMAT_SIGNALS = (
+    ("list or sequence", ("list", "array", "sequence", "values in order")),
+    ("dictionary or mapping", ("dictionary", "dict", "map", "key-value")),
+    ("string or formatted text", ("string", "str", "text", "line", "comma-separated")),
+    ("number", ("integer", "int", "float", "number", "count", "sum", "average")),
+    ("boolean", ("boolean", "bool", "true", "false")),
+)
 
-def load_system_prompt():
-  path = Path(__file__).resolve().parent / "skills.md"
-  return path.read_text(encoding="utf-8").strip()
 
-def llm_request(contents, max_retries=3):
-  client = genai.Client()
+def _first_matching_label(text, signals, default):
+    for label, phrases in signals:
+        if any(phrase in text for phrase in phrases):
+            return label
+    return default
 
-  for model in MODELS:
-    for attempt in range(max_retries):
-      try:
-        response = client.models.generate_content(
-          model=model, contents=contents
-        )
-        return response.candidates[0].content.parts[0].text
-      except errors.ServerError:
-        wait = 2 ** attempt
-        print(f"  [{model}] 503 — retrying in {wait}s (attempt {attempt + 1}/{max_retries})")
-        time.sleep(wait)
-
-    print(f"  [{model}] all retries exhausted, trying fallback...")
-
-  raise RuntimeError("All models unavailable. Please try again later.")
 
 def run(input):
-  """
-  input: dict with keys:
-      - question: str — the student's question about outputs
-      - assignment: str — the full assignment description
-      - code: str (optional) — the student's current code
-  """
-  system_prompt = load_system_prompt()
+    """
+    Identify the expected output mechanism and format from assignment context.
 
-  user_prompt = f"""
-  Student's question:
-  {input.get("question")}
+    input keys:
+        - question/message: student's question about outputs
+        - assignment/assignment_text: assignment prompt or requirements
 
-  Assignment description:
-  {input.get("assignment", "None provided")}
+    return: dict with output_type, output_format, and guidance
+    """
+    question = input.get("question") or input.get("message") or ""
+    assignment = input.get("assignment") or input.get("assignment_text") or ""
+    text = f"{assignment}\n{question}".lower()
 
-  Student's current code (if any):
-  {input.get("code", "None provided")}
+    output_type = _first_matching_label(text, OUTPUT_SIGNALS, "unclear")
+    output_format = _first_matching_label(text, FORMAT_SIGNALS, "not specified")
 
-  Task:
-  Apply the Identify Outputs skill.
+    if output_type == "unclear":
+        guidance = (
+            "I do not see a clear output mechanism in the wording yet. Look for a "
+            "verb like return, print, display, write, store, or update. If none is "
+            "present, that is an ambiguity to clarify before coding."
+        )
+    else:
+        guidance = (
+            f"The assignment wording most strongly points to `{output_type}` as the "
+            f"output mechanism. The expected format looks like `{output_format}`. "
+            "Use that as your target unless an example or instructor note says otherwise."
+        )
 
-  {system_prompt}
-  """
-
-  response = llm_request(user_prompt)
-  return response
+    return {
+        "output_type": output_type,
+        "output_format": output_format,
+        "guidance": guidance,
+    }

@@ -55,7 +55,10 @@ def main():
         history.append({"role": "assistant", "content": response})
 
         if result.get("skill_name") and result["skill_name"] != "Assignment Loaded":
-            print(f"\n[{result['skill_name']} | {result.get('stance', 'unknown')}]")
+            label = result["skill_name"]
+            if result.get("stance"):
+                label += f" | {result['stance']}"
+            print(f"\n[{label}]")
         print(f"Tutor: {response}")
 
 

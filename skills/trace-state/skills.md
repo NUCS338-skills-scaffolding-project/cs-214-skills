@@ -1,8 +1,8 @@
 ---
 skill_id: "trace-state"
 name: "Trace State Changes"
-skill_type: "code"
-stance: "socratic"
+skill_type: "instructional"
+stance: "reframe"
 tags: ["debugging", "tracing", "state", "variables"]
 course_types: ["cs"]
 learning_goal_tags:
@@ -24,7 +24,7 @@ manual code tracing with concrete inputs. The tutor teaches students to build st
 and walkthroughs to locate where their logic diverges from expectations.
 
 ## Skill Type
-- **Type:** code
+- **Type:** instructional
 - **Course Focus:** CS
 
 ## When to Trigger

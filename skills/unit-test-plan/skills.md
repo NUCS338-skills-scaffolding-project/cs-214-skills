@@ -1,8 +1,8 @@
 ---
 skill_id: "unit-test-plan"
 name: "Build a Unit Test Plan"
-skill_type: "code"
-stance: "socratic"
+skill_type: "instructional"
+stance: "hint"
 tags: ["testing", "unit-tests", "test-plan", "verification"]
 course_types: ["cs"]
 learning_goal_tags:
@@ -25,7 +25,7 @@ representative cases, and expected outcomes. The tutor can produce a test matrix
 case list, but it does not implement a full test suite for the student.
 
 ## Skill Type
-- **Type:** code
+- **Type:** instructional
 - **Course Focus:** CS
 
 ## When to Trigger
