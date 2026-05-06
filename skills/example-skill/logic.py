@@ -1,10 +1,13 @@
-# logic.py — Demo wrapper that delegates to the real identify-outputs skill
-import importlib.util
+"""Compatibility wrapper for the demo tutor engine.
+
+The actual demo app, CLI, and routing logic live in the repo-level utils folder.
+This file remains so the example skill's python_entry continues to import cleanly.
+"""
+
+import sys
 from pathlib import Path
 
-_skill_path = Path(__file__).resolve().parent.parent / "identify-outputs" / "logic.py"
-_spec = importlib.util.spec_from_file_location("identify_outputs", _skill_path)
-_mod = importlib.util.module_from_spec(_spec)
-_spec.loader.exec_module(_mod)
+UTILS_DIR = Path(__file__).resolve().parents[2] / "utils"
+sys.path.insert(0, str(UTILS_DIR))
 
-run = _mod.run
+from tutor_engine import SKILLS, run
