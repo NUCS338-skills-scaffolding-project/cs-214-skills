@@ -233,6 +233,225 @@ SKILLS = [
         ),
     ),
     SkillSpec(
+        skill_id="coord-rep",
+        name="Coordinate Representation",
+        skill_type="instructional",
+        stance="hint",
+        module_dir="coord-rep",
+        triggers=(
+            ("coordinate object", 10), ("raw coordinates", 10),
+            ("latitude", 8), ("longitude", 8), ("lat", 5), ("lng", 5),
+            ("geographic precision", 10), ("round coordinates", 8),
+            ("position coordinates", 8),
+        ),
+        opening=(
+            "Treat object construction as a lossless translation. What raw fields come in, "
+            "what internal fields store them, and how could you verify that the same values come back out?"
+        ),
+        followups=(
+            "Which value is latitude and which is longitude in the raw input?",
+            "What numeric representation preserves the input values without rounding or truncation?",
+            "What small test would prove your object representation did not change the coordinate?",
+        ),
+    ),
+    SkillSpec(
+        skill_id="road-segments",
+        name="Road Segment Parsing",
+        skill_type="instructional",
+        stance="hint",
+        module_dir="road-segments",
+        triggers=(
+            ("road segment", 10), ("road segments", 10),
+            ("topological map", 10), ("road vector", 9),
+            ("endpoints", 7), ("adjacency", 7), ("neighbors", 6),
+            ("populate the map", 6),
+        ),
+        opening=(
+            "Trace one raw segment by hand. What are its start and end coordinates, "
+            "what node records should exist after parsing it, and what edge or neighbor link should be added?"
+        ),
+        followups=(
+            "When two road segments share an endpoint, how will your structure show that connection?",
+            "Does the assignment make each road connection directed or undirected?",
+            "What should happen if an endpoint coordinate appears in multiple segments?",
+        ),
+    ),
+    SkillSpec(
+        skill_id="poi-records",
+        name="POI Record Construction",
+        skill_type="instructional",
+        stance="hint",
+        module_dir="poi-records",
+        triggers=(
+            ("point of interest", 10), ("points of interest", 10),
+            ("poi", 9), ("unique name", 8), ("category", 5),
+            ("semantic category", 8), ("place record", 7),
+        ),
+        opening=(
+            "For one POI input row, label the location, category, and name. Which later "
+            "query depends on each field being stored separately?"
+        ),
+        followups=(
+            "Which POI field is unique, and which fields can repeat across multiple places?",
+            "What query uses the category, and what query uses the name?",
+            "How will the POI record point back to a structured coordinate rather than loose text?",
+        ),
+    ),
+    SkillSpec(
+        skill_id="coord-dedupe",
+        name="Category Coordinate Deduplication",
+        skill_type="instructional",
+        stance="hint",
+        module_dir="coord-dedupe",
+        triggers=(
+            ("locate all", 10), ("locate-all", 10),
+            ("deduplicate", 9), ("dedup", 8), ("unique coordinates", 9),
+            ("duplicate coordinates", 9), ("same coordinate", 8),
+            ("find all places in this category", 8),
+        ),
+        opening=(
+            "For a locate-all query, separate the two tasks: finding records with the "
+            "requested category and ensuring the returned coordinates are distinct."
+        ),
+        followups=(
+            "What exactly should the query return: POIs, names, or coordinates?",
+            "When should two coordinates count as the same result?",
+            "What edge case has two matching POIs at one location, and what should the output contain?",
+        ),
+    ),
+    SkillSpec(
+        skill_id="shortest-route",
+        name="Shortest Route",
+        skill_type="instructional",
+        stance="hint",
+        module_dir="shortest-route",
+        triggers=(
+            ("shortest path", 10), ("shortest route", 10),
+            ("route to", 8), ("named destination", 9),
+            ("dijkstra", 9), ("path reconstruction", 8),
+            ("starting coordinate", 7),
+        ),
+        opening=(
+            "Break routing into three questions: what is the start node, what is the "
+            "destination node, and what edge weight makes one route shorter than another?"
+        ),
+        followups=(
+            "How does the destination name resolve to a coordinate or graph node?",
+            "What distance value accumulates along a route?",
+            "What predecessor information would let you reconstruct the final path?",
+        ),
+    ),
+    SkillSpec(
+        skill_id="nearest-pq",
+        name="Nearest Neighbor Priority Queue",
+        skill_type="instructional",
+        stance="hint",
+        module_dir="nearest-pq",
+        triggers=(
+            ("nearest neighbor", 10), ("nearest-neighbor", 10),
+            ("priority queue", 10), ("heap", 7),
+            ("closest", 6), ("nearby", 6), ("sort distances", 8),
+            ("spatial distance", 8),
+        ),
+        opening=(
+            "Each queue entry needs a priority and enough payload to return the result. "
+            "What distance value is the priority, and what coordinate or POI data must travel with it?"
+        ),
+        followups=(
+            "Which candidates should enter the queue?",
+            "What exactly is the priority value for each candidate?",
+            "How should your design handle ties or an empty candidate set?",
+        ),
+    ),
+    SkillSpec(
+        skill_id="workspace-link",
+        name="External Workspace Linking",
+        skill_type="instructional",
+        stance="hint",
+        module_dir="workspace-link",
+        triggers=(
+            ("workspace path", 10), ("external workspace", 10),
+            ("compiled", 6), ("linker", 8), ("linking", 8),
+            ("no such file", 7), ("cannot find", 6),
+            ("prior workspace", 8),
+        ),
+        opening=(
+            "Before editing the link line, identify three things: the workspace root, "
+            "the artifact's actual location, and the exact path syntax the build system reads."
+        ),
+        followups=(
+            "What exact compiled artifact does the assignment expect you to link?",
+            "From which workspace root is the path interpreted?",
+            "How does the written path differ from the artifact's actual location?",
+        ),
+    ),
+    SkillSpec(
+        skill_id="domain-er",
+        name="Domain ER Diagram",
+        skill_type="instructional",
+        stance="reframe",
+        module_dir="domain-er",
+        triggers=(
+            ("er diagram", 10), ("entity relationship", 10),
+            ("architecture diagram", 9), ("system diagram", 8),
+            ("domain entity", 8), ("abstract diagram", 8),
+            ("relationships", 5),
+        ),
+        opening=(
+            "Start your ER diagram with concrete nouns from the assignment. What are the "
+            "main domain entities, and what is one relationship between two of them?"
+        ),
+        followups=(
+            "Which boxes are domain entities rather than generic components?",
+            "Can you name one relationship as a verb phrase, such as contains, connects, labels, or queries?",
+            "If you trace one route or locate query through the diagram, what entity or relationship is missing?",
+        ),
+    ),
+    SkillSpec(
+        skill_id="ds-tradeoffs",
+        name="Data Structure Trade-off Analysis",
+        skill_type="instructional",
+        stance="socratic",
+        module_dir="ds-tradeoffs",
+        triggers=(
+            ("runtime tradeoff", 10), ("runtime trade-off", 10),
+            ("data structure trade", 9), ("technical report", 8),
+            ("big-o", 8), ("complexity", 6),
+            ("compare data structures", 10),
+        ),
+        opening=(
+            "Pick two candidate structures and one important operation. How does each "
+            "structure perform on that operation, and what trade-off would you mention in the report?"
+        ),
+        followups=(
+            "Which operation matters most for the assignment's required behavior?",
+            "What are the time and space costs for each candidate structure?",
+            "What is one drawback of your chosen structure that your report should acknowledge?",
+        ),
+    ),
+    SkillSpec(
+        skill_id="ranking-ethics",
+        name="Spatial Ranking Ethics",
+        skill_type="instructional",
+        stance="socratic",
+        module_dir="ranking-ethics",
+        triggers=(
+            ("paid ranking", 10), ("commercialized ranking", 10),
+            ("recommendation ranking", 10), ("sponsored result", 9),
+            ("spatial software", 8), ("ranking ethics", 10),
+            ("map recommendation", 8),
+        ),
+        opening=(
+            "Build a balanced claim: what is one possible benefit of commercialized "
+            "spatial rankings, and what is one concrete societal or economic risk?"
+        ),
+        followups=(
+            "Who are the stakeholders: users, businesses, the platform, or communities?",
+            "What does the platform gain, and what might users lose?",
+            "How could paid ranking affect trust, access, or competition in a spatial app?",
+        ),
+    ),
+    SkillSpec(
         skill_id="identify-outputs",
         name="Identify Outputs",
         skill_type="code",
@@ -425,8 +644,8 @@ def run(input):
             "stance": "meta",
             "response": (
                 "Thanks, I have the assignment context now. What part are you working "
-                "on first: outputs, data representation, testing, debugging, ambiguity, "
-                "or correctness reasoning?"
+                "on first: coordinates, road topology, POIs, routing, nearest neighbors, "
+                "data representation, testing, debugging, ambiguity, or correctness reasoning?"
             ),
             "state": state,
             "matches": ["assignment-context"],

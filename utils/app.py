@@ -191,7 +191,7 @@ for msg in st.session_state.messages:
 
 
 if student_message := st.chat_input(
-    "Paste your assignment first, then ask something like: should I print or return?"
+    "Paste your assignment first, then ask about coordinates, routes, tests, or errors."
 ):
     st.session_state.messages.append({"role": "user", "content": student_message})
     with st.chat_message("user"):
